@@ -42,3 +42,12 @@ Realistic rough estimate: ~2–5 ms per internal network call, depending on work
 ## The cost of locks
 
 Interesting paper which expands on the cost of locks:https://lmax-exchange.github.io/disruptor/disruptor.html#_the_cost_of_locks
+
+| Method                            | Time (ms) |
+|-----------------------------------|-----------|
+| Single thread                     | 300       |
+| Single thread with lock           | 10,000    |
+| Two threads with lock             | 224,000   |
+| Single thread with CAS            | 5,700     |
+| Two threads with CAS              | 30,000    |     
+| Single thread with volatile write | 4,700     |
