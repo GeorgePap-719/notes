@@ -1,6 +1,4 @@
-# General notes
-
-Some notes that are not directly copy-pasted from external sources.
+# Latency Estimates
 
 ## Back-of-the-Envelope Latency Cheat Sheet (2025)
 
@@ -40,3 +38,7 @@ Tips:
 - Additional overhead: Add time for serialization/deserialization, request processing, load balancer hops, etc. — commonly 1–3 ms extra.
 
 Realistic rough estimate: ~2–5 ms per internal network call, depending on workload.
+
+## The cost of locks
+
+Interesting paper which expands on the cost of locks:https://lmax-exchange.github.io/disruptor/disruptor.html#_the_cost_of_locks
