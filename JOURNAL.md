@@ -20,7 +20,7 @@ make sense of it.
 My first attempt was to try to merge these two data-structures, but I never got to finish it. In theory, it seemed easy,
 but it turns out the structures use fundamental different approaches.
 
-Staff to sort out:
+Stuff to sort out:
 
 - Disruptor uses a fixed-size array to keep the elements, but the BufferedChannel uses an "infinite-array".
   The channel follows this approach because it needs to keep track of all the "waiters" (suspending coroutines).
