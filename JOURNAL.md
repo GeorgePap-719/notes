@@ -26,5 +26,6 @@ Stuff to sort out:
   The channel follows this approach because it needs to keep track of all the "waiters" (suspending coroutines).
   If I want to merge these structures I cannot avoid this type of problem,
   but solving it forces me to alter the Disruptor pattern too much because at its "core" it operates with fixed-size cells.
+- Disruptor is a FIFO structure, but the Channel marks this behavior as "incorrect" due to Channel's semantics.
 
 For now, I will stop this effort and maybe come back at it later. 
