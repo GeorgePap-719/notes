@@ -1,2 +1,9 @@
 .idea
 *.iml
+
+### sdkman ###
+.sdkmanrc
+
+### AI ###
+.junie
+.ai
