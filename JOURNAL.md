@@ -34,7 +34,7 @@ For now, I will stop this effort and maybe come back at it later.
 
 After writing a lot lot of code lately, it's quite easy to forget to take a step back and document various decisions and motivations behind each direction.
 I have a project which I am working on lately, and it's been around ~5 months now. Sometimes when I look at some code that is not being changing often, I tend to forget the idea or the goal behind the
-design. It still feels a bit early to start documenting everything, but we need a balance. Now while stalking how the `kotlinx.coroutines` team is conduction their code-reviews I found this gem:
+design. It still feels a bit early to start documenting everything, but we need a balance. Now while stalking how the `kotlinx.coroutines` team is conducting their code-reviews I found this gem:
 ```
 There's a balance to strike so that the useful information contained in a comment doesn't get obscured by restating the knowledge that's implicitly required.
 ```
