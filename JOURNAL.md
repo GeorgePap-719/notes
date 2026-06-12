@@ -46,10 +46,62 @@ documenting everything, though I need to find a balance. In most cases when the 
 I am fine with forgetting its design principles. On the next iteration, it will either be removed completely or if it
 does pull its weight, then probably this would be a good time to document it.
 
-
 (Not super relevant with the above train of thought, but still in the same mindset)
 Now while stalking how the`kotlinx.coroutines` team is conducting their code-reviews I found this gem:
 
 ```
 There's a balance to strike so that the useful information contained in a comment doesn't get obscured by restating the knowledge that's implicitly required.
+```
+
+## 12 - 06 - 2026
+
+While reading some notes for major known problems with kotlinx.coroutines, something interesting caught my eye.
+The theme is `Reacting to cancellation in user code`:
+
+Cancellation of coroutines is represented by them resuming with a `CancellationException`. But, `CancellationException` is a subtype of `IllegalStateException`. That practically means it is quite
+common to write code that also catches ce's. Tbf, most developers write code without thinking about exception flows too much. And that is more true about ce.
+If you want you can read more about the problem [here](https://github.com/dkhalanskyjb/journal/blob/main/Coroutines/coroutine_problems.md#cancellation), where a coroutines core maintainer writes
+in-depth about the problem. 
+
+For me to understand it better, I wrote a simple test:
+
+```kotlin
+    fun main() = runBlocking {
+        println("CancellationException is IllegalStateException: ${CancellationException() is IllegalStateException}")
+
+        val job = launch {
+            try {
+                println("Parent started")
+                val child = async {
+                    println("Child cancelling itself only")
+                    cancel()
+                }
+                delay(500)
+                println("Parent still active: ${coroutineContext[Job]?.isActive}")
+            } catch (e: Exception) {
+                println("Parent caught: ${e::class.simpleName}")
+            }
+        }
+        job.join()
+        println("Parent finished")
+
+        println("\n--- Now with a real failure ---")
+        val job2 = launch {
+            try {
+                println("Parent 2 started")
+                val child = async {
+                    println("Child failing")
+                    throw RuntimeException("Boom")
+                }
+                delay(500)
+                println("Parent 2 still active: ${coroutineContext[Job]?.isActive}")
+            } catch (e: Exception) {
+                //ensureActive() <-- rethrows ce
+                println("Parent 2 caught: ${e::class.simpleName}")
+                println("Parent 2 still active: ${coroutineContext[Job]?.isActive}")
+            }
+        }
+        job2.join()
+        println("Parent 2 finished")
+    }
 ```
